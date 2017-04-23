@@ -1,0 +1,8 @@
+import os
+maxf = 0
+namedir = ""
+for root, dirs, files in os.walk('.'):
+    if len(files) > maxf:
+        maxf = int(len(files))
+        namedir = root
+print (namedir)
