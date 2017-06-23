@@ -1,0 +1,37 @@
+import re
+import os
+import csv
+
+def output(dic1, dic2):
+    f = open('output1.txt', 'w', encoding = 'utf-8')
+    for key, value in sorted(dic1.items()):
+        f.write(key + '\t' + str(value) + '\n')
+    f.close()
+    f = open ('output2.csv', 'w', encoding = 'cp1251')
+    writer = csv.writer(f)
+    writer.writerow (['Название', 'Автор', 'Дата'])
+    for key, value in sorted(dic2.items()):
+        row = [str(key), str(value[0]), str(value[1])]
+        writer.writerow(row)
+    f.close()
+           
+
+def diction():
+    dic1 = {}
+    dic2 = {}
+    for file in os.listdir('news'):
+        with open(os.path.join('news', file), 'r', encoding = 'cp1251') as text:
+            text = text.read()
+            d1 = re.findall('lex=', text)
+            dic1[file] = len(d1)
+            d2 = re.findall('<meta content="(.*?)" name="author"', text)
+            d3 = re.findall('<meta content="(.*?)"name="created"', text)
+            dic2[file] = d2+ d3
+    return dic1, dic2
+
+def main():
+    dic1, dic2 = diction()
+    output (dic1, dic2)
+
+if __name__ == '__main__':
+    main()
