@@ -7,15 +7,13 @@ def output(dic1, dic2):
     for key, value in sorted(dic1.items()):
         f.write(key + '\t' + str(value) + '\n')
     f.close()
-    f = open ('output2.csv', 'w', encoding = 'cp1251')
-    writer = csv.writer(f)
-    writer.writerow (['Название', 'Автор', 'Дата'])
-    for key, value in sorted(dic2.items()):
-        row = [str(key), str(value[0]), str(value[1])]
-        writer.writerow(row)
+    with open ('output2.csv', 'w', encoding = 'cp1251') as f:
+        writer = csv.writer(f)
+        writer.writerow (['Название', 'Автор', 'Дата'])
+        for key, value in sorted(dic2.items()):
+            writer.writerow([str(key), str (value[0])])
     f.close()
            
-
 def diction():
     dic1 = {}
     dic2 = {}
@@ -26,7 +24,7 @@ def diction():
             dic1[file] = len(d1)
             d2 = re.findall('<meta content="(.*?)" name="author"', text)
             d3 = re.findall('<meta content="(.*?)"name="created"', text)
-            dic2[file] = d2+ d3
+            dic2[file] = d2 + d3
     return dic1, dic2
 
 def main():
